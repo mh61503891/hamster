@@ -1,3 +1,13 @@
 #!/usr/bin/env ruby
 
-require 'hamster'
+require 'yaml'
+require 'active_support/core_ext/hash/deep_merge'
+require 'hamster/cli'
+
+config = YAML.load(File.read('tmp/hamstar.yml')).deep_symbolize_keys
+
+if ENV['DATABASE_URL'].blank?
+  ENV['DATABASE_URL'] = 'sqlite3://' + Pathname.new(config.dig(:database_path)).expand_path.to_s
+end
+
+Hamster::CLI.start(ARGV, config)
