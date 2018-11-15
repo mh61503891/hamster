@@ -1,4 +1,4 @@
-require "hamster/version"
+require 'hamster/version'
 
 module Hamster
   class Error < StandardError; end
